@@ -7,6 +7,13 @@ Repositório voltado para a criação do projeto SIG-CLINIC na linguagem de prog
 
 ```mermaid
 classDiagram    
+    Usuário <|-- Paciente
+    Usuário <|-- Profissional
+    Profissional "" -- "" Agendamento
+    Paciente "" -- "" Pagamento
+    Paciente "" -- "" Consulta
+    Profissional "" -- "" Consulta
+    Profissional "" -- "" Horário
     class Usuário {
         -string Nome
         -date Nascimento
