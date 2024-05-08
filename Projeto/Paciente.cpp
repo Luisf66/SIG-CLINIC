@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+#include "Paciente.h"
 
 void Tela_Paciente()
 {
@@ -33,6 +34,7 @@ int Escolha_Paciente()
         break;
     case 1:
         cout << "Cadastro de Paciente" << endl;
+        Cadastrar_Paciente();
         break;
     case 2:
         cout << "Edição de Paciente" << endl;
@@ -54,4 +56,30 @@ int Escolha_Paciente()
         break;
     }
     return opcao_paciente;
+}
+
+void Cadastrar_Paciente()
+{
+    string nome;
+    int nascimento[8];
+    cout << "------------------------------------------------" << endl;
+    cout << "|==============================================|" << endl;
+    cout << "|================= SIG-CLINIC =================|" << endl;
+    cout << "|==============================================|" << endl;
+    cout << "|++++++++ PREENCHA A FICHA DO PACIENTE ++++++++|" << endl;
+    cout << "|==============================================|" << endl;
+    cout << "|== NOME                                     ==|" << endl;
+    cin.ignore();
+    getline(cin, nome);
+    cout << "|== NASCIMENTO (dd/mm/aaaa)                  ==|" << endl;
+    for (int i = 0; i < 8; i++)
+    {
+        cin >> nascimento[i];
+    }
+    cout << "|== SEXO (F ou M)                            ==|" << endl;
+    cout << "|== TELEFONE ( xx xxxxx-xxxx)                ==|" << endl;
+    cout << "|== ENDEREÇO                                 ==|" << endl;
+    cout << "|== E-MAIL                                   ==|" << endl;
+    cout << "|==============================================|" << endl;
+    cout << "------------------------------------------------" << endl;
 }
