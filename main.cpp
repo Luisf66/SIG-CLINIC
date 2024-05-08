@@ -7,35 +7,39 @@ void Tela_Principal();
 void Tela_Paciente();
 void Tela_Profissional();
 // Escolhas
+int Escolha_Principal();
 int Escolha_Paciente();
 int Escolha_Profissional();
 
 int main()
 {
-    Tela_Principal();
+    Escolha_Principal();
     return 0;
 }
 
 void Tela_Principal()
 {
-    int opcao_principal = 0; // variável para seleção no menu principal
-    // Tela principal
+    cout << "-----------------------------------------------" << endl;
+    cout << "|=============================================|" << endl;
+    cout << "|================ SIG-CLINIC =================|" << endl;
+    cout << "|=============================================|" << endl;
+    cout << "|+++++++++++++++++++ Menu ++++++++++++++++++++|" << endl;
+    cout << "|=============================================|" << endl;
+    cout << "|== 0-Encerrar                              ==|" << endl; // Encerra a aplicação
+    cout << "|== 1-Paciente                              ==|" << endl; // Leva ao módulo de pacientes
+    cout << "|== 2-Profissional                          ==|" << endl; // Leva ao módulo de profissionais
+    cout << "|== 3-Agendamento                           ==|" << endl; // Leva ao módulo de agendamento
+    cout << "|=============================================|" << endl;
+    cout << "-----------------------------------------------" << endl;
+}
+
+int Escolha_Principal()
+{
+    int opcao_principal = 0;
     do
     {
-        cout << "-----------------------------------------------" << endl;
-        cout << "|=============================================|" << endl;
-        cout << "|=================SIG-CLINIC==================|" << endl;
-        cout << "|=============================================|" << endl;
-        cout << "|+++++++++++++++++++++++++++++++++++++++++++++|" << endl;
-        cout << "|=============================================|" << endl;
-        cout << "|== 0-Encerrar                              ==|" << endl; // Encerra a aplicação
-        cout << "|== 1-Paciente                              ==|" << endl; // Leva ao módulo de pacientes
-        cout << "|== 2-Profissional                          ==|" << endl; // Leva ao módulo de profissionais
-        cout << "|== 3-Agendamento                           ==|" << endl; // Leva ao módulo de agendamento
-        cout << "|=============================================|" << endl;
-        cout << "-----------------------------------------------" << endl;
+        Tela_Principal();
         cin >> opcao_principal;
-        //------------------SELEÇÃO NO MENU PRINCIPAL-------------------------//
         switch (opcao_principal)
         {
         case 0:
@@ -56,17 +60,17 @@ void Tela_Principal()
             cout << "Escolha uma opção dentre as listadas" << endl;
             break;
         }
-        //------------------FIM DO MENU PRINCIPAL-------------------------//
     } while (opcao_principal != 0);
+    return opcao_principal;
 }
 
 void Tela_Paciente()
 {
     cout << "------------------------------------------------" << endl;
     cout << "|==============================================|" << endl;
-    cout << "|=================SIG-CLINIC===================|" << endl;
+    cout << "|================= SIG-CLINIC =================|" << endl;
     cout << "|==============================================|" << endl;
-    cout << "|++++++++++++++++++PACIENTES+++++++++++++++++++|" << endl;
+    cout << "|+++++++++++++++++ PACIENTES ++++++++++++++++++|" << endl;
     cout << "|==============================================|" << endl;
     cout << "|== 0-Voltar                                 ==|" << endl; // volta ao menu principal
     cout << "|== 1-Cadastrar                              ==|" << endl; // cadastra um paciente
@@ -119,9 +123,9 @@ void Tela_Profissional()
 {
     cout << "------------------------------------------------" << endl;
     cout << "|==============================================|" << endl;
-    cout << "|==================SIG-CLINIC==================|" << endl;
+    cout << "|================= SIG-CLINIC =================|" << endl;
     cout << "|==============================================|" << endl;
-    cout << "|+++++++++++++++++PROFISSIONAL+++++++++++++++++|" << endl;
+    cout << "|++++++++++++++++ PROFISSIONAL ++++++++++++++++|" << endl;
     cout << "|==============================================|" << endl;
     cout << "|== 0-Voltar                                 ==|" << endl; // volta ao menu principal
     cout << "|== 1-Cadastrar                              ==|" << endl; // cadastra um profissional
