@@ -1,6 +1,8 @@
 #include <iostream>
-using namespace std;
 #include "Paciente.h"
+#include "cstdlib"
+
+using namespace std;
 
 class Paciente
 {
@@ -13,7 +15,7 @@ private:
     char genero;
 
 public:
-    //set
+    // set
     void setNome(string novoNome)
     {
         nome = novoNome;
@@ -28,7 +30,19 @@ public:
     {
         genero = novoGenero;
     }
-    //get
+    void setTelefone(string novoTelefone)
+    {
+        telefone = novoTelefone;
+    }
+    void setEndereco(string novoEndereco)
+    {
+        endereco = novoEndereco;
+    }
+    void setEmail(string novoEmail)
+    {
+        email = novoEmail;
+    }
+    // get
     int *getNascimento()
     {
         return nascimento;
@@ -37,6 +51,7 @@ public:
 
 void Tela_Paciente()
 {
+    system("cls");
     cout << "------------------------------------------------" << endl;
     cout << "|==============================================|" << endl;
     cout << "|================= SIG-CLINIC =================|" << endl;
@@ -93,10 +108,14 @@ int Escolha_Paciente()
 
 void Cadastrar_Paciente()
 {
-    Paciente novoPaciente;
+    Paciente NovoPaciente;
     string nomePaciente;
     int dia, mes, ano;
-    char genero;
+    char generoPaciente;
+    string telefonePaciente;
+    string enderecoPaciente;
+    string emailPaciente;
+    system("cls");
     //----------------------------------------------------------------//
     cout << "------------------------------------------------" << endl;
     cout << "|==============================================|" << endl;
@@ -108,7 +127,7 @@ void Cadastrar_Paciente()
     //----------------------------------------------------------------//
     cin.ignore();
     getline(cin, nomePaciente);
-    novoPaciente.setNome(nomePaciente);
+    NovoPaciente.setNome(nomePaciente);
     //----------------------------------------------------------------//
     cout << "|== NASCIMENTO DIA                           ==|" << endl;
     cin >> dia;
@@ -116,18 +135,33 @@ void Cadastrar_Paciente()
     cin >> mes;
     cout << "|== NASCIMENTO ANO                           ==|" << endl;
     cin >> ano;
-    novoPaciente.setNascimento(dia, mes, ano);
-    int *dataNascimento = novoPaciente.getNascimento();
+    NovoPaciente.setNascimento(dia, mes, ano);
+    //int *dataNascimento = NovoPaciente.getNascimento();
+    cin.ignore();
     //----------------------------------------------------------------//
     cout << "|== SEXO (F ou M)                            ==|" << endl;
-    cin >> genero;
-    novoPaciente.setGenero(genero);
+    cin >> generoPaciente;
+    NovoPaciente.setGenero(generoPaciente);
+    cin.ignore();
+    //----------------------------------------------------------------//
     cout << "|== TELEFONE ( xx xxxxx-xxxx)                ==|" << endl;
+    getline(cin, telefonePaciente);
+    NovoPaciente.setTelefone(telefonePaciente);
+    //----------------------------------------------------------------//
     cout << "|== ENDEREÇO                                 ==|" << endl;
+    getline(cin, enderecoPaciente);
+    NovoPaciente.setEndereco(enderecoPaciente);
+    //----------------------------------------------------------------//
     cout << "|== E-MAIL                                   ==|" << endl;
+    getline(cin, emailPaciente);
+    NovoPaciente.setEmail(emailPaciente);
+    //----------------------------------------------------------------//
     cout << "|==============================================|" << endl;
     cout << "------------------------------------------------" << endl;
     cout << "Paciente: " << nomePaciente << endl;
-    cout << "Data de nascimento: " << dataNascimento[0] << "/" << dataNascimento[1] << "/" << dataNascimento[2] << endl;
-    cout << "SEXO: " << genero << endl;
+    cout << "Data de nascimento: " << dia << "/" << mes << "/" << ano << endl;
+    cout << "SEXO: " << generoPaciente << endl;
+    cout << "Telefone: " << telefonePaciente << endl;
+    cout << "Endereço: " << enderecoPaciente << endl;
+    cout << "E-mail: " << emailPaciente << endl;
 }
