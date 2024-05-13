@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "Paciente.h"
+#include "Paciente.hpp"
 #include "cstdlib"
 
 using namespace std;

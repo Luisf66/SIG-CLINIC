@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Paciente.h"
-#include "Profissional.h"
-#include "Agendamento.h"
+#include "Paciente.hpp"
+#include "Profissional.hpp"
+#include "Agendamento.hpp"
 using namespace std;
 
 void Tela_Principal()
