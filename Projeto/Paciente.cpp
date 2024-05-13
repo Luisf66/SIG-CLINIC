@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Paciente.h"
 #include "cstdlib"
 
@@ -7,14 +8,21 @@ using namespace std;
 class Paciente
 {
 private:
+    unsigned int id;
     string nome;
     string endereco;
     string telefone;
     string email;
     int nascimento[3];
     char genero;
+    bool status;
 
 public:
+    Paciente()
+    {
+        id = 1;
+        status = false;
+    }
     // set
     void setNome(string novoNome)
     {
@@ -42,10 +50,26 @@ public:
     {
         email = novoEmail;
     }
+    void setId(unsigned int novoId)
+    {
+        id = novoId;
+    }
+    void setStatus(bool novoStatus)
+    {
+        status = novoStatus;
+    }
     // get
     int *getNascimento()
     {
         return nascimento;
+    }
+    unsigned int getId()
+    {
+        return id;
+    }
+    bool getStatus()
+    {
+        return status;
     }
 };
 
@@ -108,6 +132,7 @@ int Escolha_Paciente()
 
 void Cadastrar_Paciente()
 {
+    static unsigned int nextId = 1;
     Paciente NovoPaciente;
     string nomePaciente;
     int dia, mes, ano;
@@ -136,7 +161,7 @@ void Cadastrar_Paciente()
     cout << "|== NASCIMENTO ANO                           ==|" << endl;
     cin >> ano;
     NovoPaciente.setNascimento(dia, mes, ano);
-    //int *dataNascimento = NovoPaciente.getNascimento();
+    // int *dataNascimento = NovoPaciente.getNascimento();
     cin.ignore();
     //----------------------------------------------------------------//
     cout << "|== SEXO (F ou M)                            ==|" << endl;
@@ -156,12 +181,17 @@ void Cadastrar_Paciente()
     getline(cin, emailPaciente);
     NovoPaciente.setEmail(emailPaciente);
     //----------------------------------------------------------------//
+    NovoPaciente.setId(nextId);   // Atribui o ID atual ao paciente
+    NovoPaciente.setStatus(true); // Define o status do paciente como ativo
+    //----------------------------------------------------------------//
     cout << "|==============================================|" << endl;
     cout << "------------------------------------------------" << endl;
+    cout << "ID: " << nextId << endl;
     cout << "Paciente: " << nomePaciente << endl;
     cout << "Data de nascimento: " << dia << "/" << mes << "/" << ano << endl;
     cout << "SEXO: " << generoPaciente << endl;
     cout << "Telefone: " << telefonePaciente << endl;
     cout << "Endereço: " << enderecoPaciente << endl;
     cout << "E-mail: " << emailPaciente << endl;
+    nextId++; // Incrementa o ID para o próximo paciente
 }
