@@ -71,6 +71,19 @@ public:
     {
         return status;
     }
+    //
+    void ExibirDadosCadastrados()
+    {
+        cout << "|==============================================|" << endl;
+        cout << "------------------------------------------------" << endl;
+        cout << "ID: " << id << endl;
+        cout << "Paciente: " << nome << endl;
+        cout << "Data de nascimento: " << nascimento[0] << "/" << nascimento[1] << "/" << nascimento[2] << endl;
+        cout << "Sexo: " << genero << endl;
+        cout << "Telefone: " << telefone << endl;
+        cout << "Endereço: " << endereco << endl;
+        cout << "E-mail: " << email << endl;
+    }
 };
 
 void Tela_Paciente()
@@ -183,15 +196,6 @@ void Cadastrar_Paciente()
     //----------------------------------------------------------------//
     NovoPaciente.setId(nextId);   // Atribui o ID atual ao paciente
     NovoPaciente.setStatus(true); // Define o status do paciente como ativo
-    //----------------------------------------------------------------//
-    cout << "|==============================================|" << endl;
-    cout << "------------------------------------------------" << endl;
-    cout << "ID: " << nextId << endl;
-    cout << "Paciente: " << nomePaciente << endl;
-    cout << "Data de nascimento: " << dia << "/" << mes << "/" << ano << endl;
-    cout << "SEXO: " << generoPaciente << endl;
-    cout << "Telefone: " << telefonePaciente << endl;
-    cout << "Endereço: " << enderecoPaciente << endl;
-    cout << "E-mail: " << emailPaciente << endl;
+    NovoPaciente.ExibirDadosCadastrados(); // exibe os dados cadastrados
     nextId++; // Incrementa o ID para o próximo paciente
 }
