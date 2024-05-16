@@ -2,8 +2,11 @@
 #include <string>
 #include "Paciente.hpp"
 #include "cstdlib"
+#include <nlohmann/json.hpp>
+#include <fstream>
 
 using namespace std;
+using json = nlohmann::json;
 
 class Paciente
 {
@@ -24,53 +27,28 @@ public:
         status = false;
     }
     // set
-    void setNome(string novoNome)
-    {
-        nome = novoNome;
-    }
     void setNascimento(int dia, int mes, int ano)
     {
         nascimento[0] = dia;
         nascimento[1] = mes;
         nascimento[2] = ano;
     }
-    void setGenero(char novoGenero)
-    {
-        genero = novoGenero;
-    }
-    void setTelefone(string novoTelefone)
-    {
-        telefone = novoTelefone;
-    }
-    void setEndereco(string novoEndereco)
-    {
-        endereco = novoEndereco;
-    }
-    void setEmail(string novoEmail)
-    {
-        email = novoEmail;
-    }
-    void setId(unsigned int novoId)
-    {
-        id = novoId;
-    }
-    void setStatus(bool novoStatus)
-    {
-        status = novoStatus;
-    }
+    void setNome(string novoNome)         { nome = novoNome; }
+    void setGenero(char novoGenero)       { genero = novoGenero; }
+    void setTelefone(string novoTelefone) { telefone = novoTelefone; }
+    void setEndereco(string novoEndereco) { endereco = novoEndereco; }
+    void setEmail(string novoEmail)       { email = novoEmail; }
+    void setId(unsigned int novoId)       { id = novoId; }
+    void setStatus(bool novoStatus)       { status = novoStatus; }
     // get
-    int *getNascimento()
-    {
-        return nascimento;
-    }
-    unsigned int getId()
-    {
-        return id;
-    }
-    bool getStatus()
-    {
-        return status;
-    }
+    int *getNascimento()                  { return nascimento; }
+    unsigned int getId()                  { return id; }
+    bool getStatus()                      { return status; }
+    string getNome()                      { return nome; }
+    char getGenero()                      { return genero; }
+    string getTelefone()                  { return telefone; }
+    string getEndereco()                  { return endereco; }
+    string getEmail()                     { return email; }
     //
     void ExibirDadosCadastrados()
     {
@@ -86,9 +64,33 @@ public:
     }
 };
 
+void SalvarPacienteJson(Paciente& paciente)
+{
+    json pacienteJson;
+    pacienteJson["id"] = paciente.getId();
+    pacienteJson["nome"] = paciente.getNome();
+    pacienteJson["nascimento"] = {paciente.getNascimento()[0], paciente.getNascimento()[1], paciente.getNascimento()[2]};
+    pacienteJson["genero"] = string(1, paciente.getGenero()); // Converte o char para uma string
+    pacienteJson["telefone"] = paciente.getTelefone();
+    pacienteJson["endereco"] = paciente.getEndereco();
+    pacienteJson["email"] = paciente.getEmail();
+    pacienteJson["status"] = paciente.getStatus();
+
+    ofstream arquivo("pacientes.json", ios_base::app);
+    if (arquivo.is_open()) {
+        if (arquivo.tellp() != 0) { // Verifica se o arquivo não está vazio
+            arquivo << ","; // Adiciona vírgula entre os objetos
+        }
+        arquivo << pacienteJson.dump(4); // Escreve o objeto JSON no arquivo
+        arquivo.close();
+    } else {
+        cerr << "Erro ao abrir o arquivo para escrita." << endl;
+    }
+}
+
 void Tela_Paciente()
 {
-    system("cls");
+    system("clear");
     cout << "------------------------------------------------" << endl;
     cout << "|==============================================|" << endl;
     cout << "|================= SIG-CLINIC =================|" << endl;
@@ -153,7 +155,7 @@ void Cadastrar_Paciente()
     string telefonePaciente;
     string enderecoPaciente;
     string emailPaciente;
-    system("cls");
+    system("clear");
     //----------------------------------------------------------------//
     cout << "------------------------------------------------" << endl;
     cout << "|==============================================|" << endl;
@@ -197,5 +199,7 @@ void Cadastrar_Paciente()
     NovoPaciente.setId(nextId);   // Atribui o ID atual ao paciente
     NovoPaciente.setStatus(true); // Define o status do paciente como ativo
     NovoPaciente.ExibirDadosCadastrados(); // exibe os dados cadastrados
+    SalvarPacienteJson(NovoPaciente); // Salva todos os dados em arquivo JSON
     nextId++; // Incrementa o ID para o próximo paciente
+    //----------------------------------------------------------------//
 }

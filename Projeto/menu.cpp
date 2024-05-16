@@ -31,6 +31,7 @@ int Escolha_Principal()
         {
         case 0:
             cout << "Encerrando aplicação" << endl;
+            system("clear");
             break;
         case 1:
             cout << "Abrindo módulo Paciente" << endl;
