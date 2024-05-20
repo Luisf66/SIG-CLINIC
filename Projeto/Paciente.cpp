@@ -64,6 +64,29 @@ public:
     }
 };
 
+void CorrigirUltimoCaractere(ifstream& arquivo)
+{
+    arquivo.seekg(-1, ios_base::end); // Move o cursor de leitura para o último caractere
+    char ultimoCaractere;
+    arquivo.get(ultimoCaractere); // Lê o último caractere
+
+    if (ultimoCaractere == ']')
+    {
+        ofstream arquivoEscrita("pacientes.json", ios_base::in | ios_base::out);
+        if (arquivoEscrita.is_open())
+        {
+            arquivoEscrita.seekp(-1, ios_base::end); // Move o cursor de escrita para o último caractere
+            arquivoEscrita << ","; // Substitui o colchete por uma vírgula
+            arquivoEscrita.close();
+        }
+        else
+        {
+            cerr << "Erro ao abrir o arquivo para escrita." << endl;
+        }
+    }
+}
+
+
 void SalvarPacienteJson(Paciente& paciente)
 {
     json pacienteJson;
@@ -76,12 +99,20 @@ void SalvarPacienteJson(Paciente& paciente)
     pacienteJson["email"] = paciente.getEmail();
     pacienteJson["status"] = paciente.getStatus();
 
+    ifstream Correcao_do_arquivo("pacientes.json");
     ofstream arquivo("pacientes.json", ios_base::app);
     if (arquivo.is_open()) {
-        if (arquivo.tellp() != 0) { // Verifica se o arquivo não está vazio
-            arquivo << ","; // Adiciona vírgula entre os objetos
+        if (arquivo.tellp() == 0) { // Se o arquivo estiver vazio, adiciona um '[' no início
+            arquivo << "[";
+        } else {
+            //
+            CorrigirUltimoCaractere(Correcao_do_arquivo); // Verifica e corrige o último caractere do arquivo
+            //arquivo << ","; // Adiciona vírgula entre os objetos, exceto no primeiro
         }
         arquivo << pacienteJson.dump(4); // Escreve o objeto JSON no arquivo
+        arquivo.close();
+        arquivo.open("pacientes.json", ios_base::app);
+        arquivo << "]"; // Fecha o array JSON
         arquivo.close();
     } else {
         cerr << "Erro ao abrir o arquivo para escrita." << endl;
