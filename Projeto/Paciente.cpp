@@ -16,9 +16,11 @@ private:
     string endereco;
     string telefone;
     string email;
+    string cpf;
     int nascimento[3];
     char genero;
     bool status;
+    char convenio;    
 
 public:
     Paciente()
@@ -33,22 +35,26 @@ public:
         nascimento[1] = mes;
         nascimento[2] = ano;
     }
-    void setNome(string novoNome)         { nome = novoNome; }
-    void setGenero(char novoGenero)       { genero = novoGenero; }
-    void setTelefone(string novoTelefone) { telefone = novoTelefone; }
-    void setEndereco(string novoEndereco) { endereco = novoEndereco; }
-    void setEmail(string novoEmail)       { email = novoEmail; }
     void setId(unsigned int novoId)       { id = novoId; }
+    void setNome(string novoNome)         { nome = novoNome; }
+    void setEndereco(string novoEndereco) { endereco = novoEndereco; }
+    void setTelefone(string novoTelefone) { telefone = novoTelefone; }
+    void setEmail(string novoEmail)       { email = novoEmail; }
+    void setCpf(string novoCpf)           { cpf = novoCpf; }
+    void setGenero(char novoGenero)       { genero = novoGenero; }
     void setStatus(bool novoStatus)       { status = novoStatus; }
+    void setConvenio(char novoConvenio)   { convenio = novoConvenio; }
     // get
     int *getNascimento()                  { return nascimento; }
     unsigned int getId()                  { return id; }
-    bool getStatus()                      { return status; }
     string getNome()                      { return nome; }
-    char getGenero()                      { return genero; }
-    string getTelefone()                  { return telefone; }
     string getEndereco()                  { return endereco; }
+    string getTelefone()                  { return telefone; }
     string getEmail()                     { return email; }
+    string getCpf()                       { return cpf;}
+    char getGenero()                      { return genero; }
+    bool getStatus()                      { return status; }
+    char getConvenio()                    { return convenio;}
     //
     void ExibirDadosCadastrados()
     {
@@ -61,6 +67,8 @@ public:
         cout << "Telefone: " << telefone << endl;
         cout << "Endereço: " << endereco << endl;
         cout << "E-mail: " << email << endl;
+        cout << "CPF: " << cpf << endl;
+        cout << "Convenio: " << convenio << endl;
     }
 };
 
@@ -98,6 +106,8 @@ void SalvarPacienteJson(Paciente& paciente)
     pacienteJson["endereco"] = paciente.getEndereco();
     pacienteJson["email"] = paciente.getEmail();
     pacienteJson["status"] = paciente.getStatus();
+    pacienteJson["CPF"] = paciente.getCpf();
+    pacienteJson["convenio"] = string(1, paciente.getConvenio());
 
     ifstream Correcao_do_arquivo("pacientes.json");
     ofstream arquivo("pacientes.json", ios_base::app);
@@ -162,6 +172,7 @@ int Escolha_Paciente()
         break;
     case 4:
         cout << "Busca por Paciente" << endl;
+        Buscar_Paciente();
         break;
     case 5:
         cout << "Checando Consulta" << endl;
@@ -186,6 +197,8 @@ void Cadastrar_Paciente()
     string telefonePaciente;
     string enderecoPaciente;
     string emailPaciente;
+    string cpfPaciente;
+    char convenioPaciente;
     system("clear");
     //----------------------------------------------------------------//
     cout << "------------------------------------------------" << endl;
@@ -227,10 +240,51 @@ void Cadastrar_Paciente()
     getline(cin, emailPaciente);
     NovoPaciente.setEmail(emailPaciente);
     //----------------------------------------------------------------//
+    cout << "|== CPF (SOMENTE NÚMEROS)                    ==|" << endl;
+    cin >> cpfPaciente;
+    NovoPaciente.setCpf(cpfPaciente);
+    //----------------------------------------------------------------//
+    cout << "|== CONVÊNIO ( S ou N)" << endl;
+    cin >> convenioPaciente;
+    NovoPaciente.setConvenio(convenioPaciente);
+    //----------------------------------------------------------------//
     NovoPaciente.setId(nextId);   // Atribui o ID atual ao paciente
     NovoPaciente.setStatus(true); // Define o status do paciente como ativo
     NovoPaciente.ExibirDadosCadastrados(); // exibe os dados cadastrados
     SalvarPacienteJson(NovoPaciente); // Salva todos os dados em arquivo JSON
     nextId++; // Incrementa o ID para o próximo paciente
     //----------------------------------------------------------------//
+}
+
+void Buscar_Paciente() 
+{
+    string cpfBusca;
+    cout << "CPF do Paciente: " << endl;
+    cin >> cpfBusca;
+    ifstream arquivo("pacientes.json");
+    if (arquivo.is_open()) {
+        json pacientes;
+        arquivo >> pacientes;
+
+        for (const auto& paciente : pacientes) {
+            string cpf = paciente["CPF"];
+            if (cpf == cpfBusca) {
+                // CPF encontrado, exibir os dados do paciente
+                cout << "Paciente encontrado:" << endl;
+                cout << "ID: " << paciente["id"] << endl;
+                cout << "Nome: " << paciente["nome"] << endl;
+                cout << "Data de nascimento: " << paciente["nascimento"][0] << "/" << paciente["nascimento"][1] << "/" << paciente["nascimento"][2] << endl;
+                cout << "Sexo: " << paciente["genero"] << endl;
+                cout << "Telefone: " << paciente["telefone"] << endl;
+                cout << "Endereço: " << paciente["endereco"] << endl;
+                cout << "E-mail: " << paciente["email"] << endl;
+                cout << "CPF: " << paciente["CPF"] << endl;
+                cout << "Convenio: " << paciente["convenio"] << endl;
+                return; // Encerra a busca após encontrar o paciente
+            }
+        }
+        cout << "Paciente não encontrado." << endl;
+    } else {
+        cerr << "Erro ao abrir o arquivo de pacientes." << endl;
+    }
 }
